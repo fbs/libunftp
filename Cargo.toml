@@ -26,7 +26,8 @@ members = [
     "crates/unftp-auth-pam",
     "crates/unftp-auth-rest",
     "crates/unftp-sbe-fs",
-    "crates/unftp-sbe-gcs"
+    "crates/unftp-sbe-gcs",
+    "crates/unftp-libssh",
 ]
 
 [dependencies]
