@@ -18,3 +18,5 @@ pub(crate) use controlchan::ControlChanMiddleware;
 pub(crate) use controlchan::Event;
 pub(crate) use controlchan::{ControlChanError, ControlChanErrorKind};
 pub(self) use session::{Session, SessionState};
+
+pub mod sftpserver;

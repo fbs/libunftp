@@ -1,14 +1,34 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+#![allow(dead_code)]
+#![allow(unused_variables)]
+use std::sync::Once;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+use libssh_rs_sys as sys;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+pub mod bind;
+pub mod channel;
+pub mod error;
+pub mod session;
+
+pub use bind::{Bind, BindBuilder};
+pub use error::Error;
+pub use session::Session;
+
+struct LibraryState {}
+impl LibraryState {
+    pub fn new() -> Option<Self> {
+        let res = unsafe { sys::ssh_init() };
+        if res != sys::SSH_OK as i32 {
+            None
+        } else {
+            Some(Self {})
+        }
     }
 }
+impl Drop for LibraryState {
+    fn drop(&mut self) {
+        unsafe { sys::ssh_finalize() };
+    }
+}
+
+static INIT: Once = Once::new();
+static mut LIB: Option<LibraryState> = None;

@@ -57,6 +57,7 @@ tracing = { version = "0.1.35", default-features = false }
 tracing-attributes = "0.1.22"
 uuid = { version = "1.1.2", features = ["v4"] }
 x509-parser = "0.14.0"
+unftp-libssh = { path = "crates/unftp-libssh" }
 
 [dev-dependencies]
 pretty_assertions = "1.2.1"
