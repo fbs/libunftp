@@ -9,6 +9,7 @@ use md5::{Digest, Md5};
 use std::{
     fmt::{self, Debug, Formatter, Write},
     path::Path,
+    path::PathBuf,
     result,
     time::SystemTime,
 };
@@ -294,6 +295,10 @@ pub trait StorageBackend<User: UserDetail>: Send + Sync + Debug {
 
     /// Changes the working directory to the given path.
     async fn cwd<P: AsRef<Path> + Send + Debug>(&self, user: &User, path: P) -> Result<()>;
+
+    /// Returns the full, absolute and canonical path corresponding to the (relative to FTP root)
+    /// input path, resolving symlinks and sequences like '../'.
+    async fn full_path<P: AsRef<Path> + Send + Debug>(&self, path: P) -> Result<PathBuf>;
 }
 
 impl From<std::io::Error> for Error {

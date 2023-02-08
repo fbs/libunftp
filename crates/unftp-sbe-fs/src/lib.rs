@@ -67,7 +67,7 @@ impl Filesystem {
 
     /// Returns the full, absolute and canonical path corresponding to the (relative to FTP root)
     /// input path, resolving symlinks and sequences like '../'.
-    async fn full_path<P: AsRef<Path>>(&self, path: P) -> Result<PathBuf> {
+    async fn full_path<P: AsRef<Path> + Send + Debug>(&self, path: P) -> Result<PathBuf> {
         // `path.join(other_path)` replaces `path` with `other_path` if `other_path` is absolute,
         // so we have to check for it.
         let path = path.as_ref();
@@ -95,6 +95,12 @@ impl<User: UserDetail> StorageBackend<User> for Filesystem {
 
     fn supported_features(&self) -> u32 {
         libunftp::storage::FEATURE_RESTART | libunftp::storage::FEATURE_SITEMD5
+    }
+
+    /// Returns the full, absolute and canonical path corresponding to the (relative to FTP root)
+    /// input path, resolving symlinks and sequences like '../'.
+    async fn full_path<P: AsRef<Path> + Send + Debug>(&self, path: P) -> Result<PathBuf> {
+        self.full_path(path).await
     }
 
     #[tracing_attributes::instrument]

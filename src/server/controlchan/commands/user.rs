@@ -201,6 +201,10 @@ mod tests {
         async fn cwd<P: AsRef<Path> + Send + Debug>(&self, user: &DefaultUser, path: P) -> Result<()> {
             todo!()
         }
+
+        async fn full_path<P: AsRef<Path> + Send + Debug>(&self, path: P) -> Result<PathBuf> {
+            todo!()
+        }
     }
 
     impl Reply {

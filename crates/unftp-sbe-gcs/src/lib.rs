@@ -370,6 +370,11 @@ impl<User: UserDetail> StorageBackend<User> for CloudStorage {
         Ok(Box::new(async_read))
     }
 
+    async fn full_path<P: AsRef<Path> + Send + Debug>(&self, path: P) -> Result<PathBuf, Error> {
+        let p = self.uris.path_str(path)?;
+        Ok(PathBuf::from(p))
+    }
+
     async fn put<P: AsRef<Path> + Send + Debug, B: tokio::io::AsyncRead + Send + Sync + Unpin + 'static>(
         &self,
         _user: &User,

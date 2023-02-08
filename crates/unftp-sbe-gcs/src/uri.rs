@@ -94,7 +94,7 @@ impl GcsUri {
         ))
     }
 
-    fn path_str<P: AsRef<Path>>(&self, path: P) -> Result<String, Error> {
+    pub(crate) fn path_str<P: AsRef<Path>>(&self, path: P) -> Result<String, Error> {
         let path = path.as_ref();
         let relative_path = path.strip_prefix("/").unwrap_or(path);
         if let Some(path) = self.root.join(relative_path).to_str() {

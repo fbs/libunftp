@@ -142,11 +142,12 @@ where
             .await;
         match put_result {
             Ok(bytes) => {
+                let realpath = self.storage.full_path(path.clone()).await.unwrap_or(path);
                 if let Err(err) = tx_ok
                     .send(ControlChanMsg::WrittenData {
                         bytes,
                         path: path_copy,
-                        realpath: path.to_string_lossy().to_string(),
+                        realpath: realpath.to_string_lossy().to_string(),
                     })
                     .await
                 {
