@@ -27,8 +27,10 @@ pub enum DataEvent {
     },
     /// A STOR command finished successfully
     Put {
-        /// The path to the file that was obtained
+        /// The path to the file that was obtained, relative to the users homedir
         path: String,
+        /// Full path
+        realpath: String,
 
         /// The amount of bytes stored
         bytes: u64,

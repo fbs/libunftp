@@ -71,10 +71,13 @@ pub enum ControlChanMsg {
     },
     /// We've written the data from the client to the StorageBackend
     WrittenData {
-        /// The path as specified by the client
+        /// The path as specified by the client, this is relative to the users homedir
         path: String,
         /// The number of bytes transferred
         bytes: u64,
+
+        /// fully expanded path
+        realpath: String,
     },
     /// Data connection was unexpectedly closed
     ConnectionReset,

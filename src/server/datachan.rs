@@ -136,13 +136,20 @@ where
             .put(
                 (*self.user).as_ref().unwrap(),
                 Self::reader(self.socket, self.ftps_mode).await,
-                path,
+                path.clone(),
                 self.start_pos,
             )
             .await;
         match put_result {
             Ok(bytes) => {
-                if let Err(err) = tx_ok.send(ControlChanMsg::WrittenData { bytes, path: path_copy }).await {
+                if let Err(err) = tx_ok
+                    .send(ControlChanMsg::WrittenData {
+                        bytes,
+                        path: path_copy,
+                        realpath: path.to_string_lossy().to_string(),
+                    })
+                    .await
+                {
                     slog::error!(self.logger, "Could not notify control channel of successful STOR: {}", err);
                 }
             }

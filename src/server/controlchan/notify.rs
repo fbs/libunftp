@@ -65,9 +65,10 @@ where
                     path: String::from(path),
                     bytes: *bytes,
                 }),
-                ControlChanMsg::WrittenData { path, bytes } => Some(notification::DataEvent::Put {
+                ControlChanMsg::WrittenData { path, bytes, realpath } => Some(notification::DataEvent::Put {
                     path: String::from(path),
                     bytes: *bytes,
+                    realpath: realpath.clone(),
                 }),
                 ControlChanMsg::RmDirSuccess { path } => Some(notification::DataEvent::RemovedDir { path: String::from(path) }),
                 ControlChanMsg::DelFileSuccess { path } => Some(notification::DataEvent::Deleted { path: String::from(path) }),
